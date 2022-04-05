@@ -22,7 +22,7 @@ export class CreatingComponent {
 
     /******************************/
 
-    
+
     const myFancyObs$ = new Observable<string>(sub => {
       sub.next('A');
       sub.next('B');
@@ -35,7 +35,10 @@ export class CreatingComponent {
     // interval(1000)
     // timer(3000)
 
-    timer(3000, 500).subscribe({
+    timer(0, 1000).pipe(
+      map(e => e * 3),
+      filter(e => e % 2 === 0)
+    ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
     });
