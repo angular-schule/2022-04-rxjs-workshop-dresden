@@ -24,12 +24,7 @@ export class ErrorHandlingComponent {
 
   start() {
     this.es.randomError().pipe(
-
-      /******************************/
-
-      
-      /******************************/
-
+      retry(5)
     ).subscribe({
       next: e => this.logStream$.next(e),
       error: err => this.logStream$.next('❌ ERROR: ' + err)
