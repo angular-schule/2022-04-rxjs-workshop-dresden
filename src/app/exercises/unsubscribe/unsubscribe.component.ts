@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subject, ReplaySubject, timer, Subscription, takeWhile, takeUntil } from 'rxjs';
+import { Subject, ReplaySubject, timer, Subscription, takeWhile, takeUntil, take } from 'rxjs';
 
 @Component({
   selector: 'rxw-unsubscribe',
@@ -19,10 +19,15 @@ export class UnsubscribeComponent implements OnDestroy {
    *
    * Es gibt noch weitere Wege, das Problem zu lösen ...
    */
-  constructor() {
-    const interval$ = timer(0, 1000);
 
-    interval$.subscribe({
+  private destroy$ = new Subject<void>();
+
+  constructor() {
+    const interval$ = timer(0, 500);
+
+    interval$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
       complete: () => this.log('✅ COMPLETE')
@@ -30,7 +35,8 @@ export class UnsubscribeComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.destroy$.next();
+    // this.destroy$.complete(); // nicht notwendig
   }
 
   log(msg: string | number) {
