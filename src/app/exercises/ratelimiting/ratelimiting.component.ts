@@ -29,6 +29,12 @@ export class RatelimitingComponent {
     /**************!!**************/
 
     this.result$ = this.events$.pipe(
+      // debounceTime(1000),
+      // throttleTime(1000),
+      // throttleTime(1000, undefined, { leading: true, trailing: false }), // default
+      // throttleTime(1000, undefined, { leading: false, trailing: true }), // wie auditTime
+      // auditTime(3000),
+      sampleTime(3000)
     );
 
     /**************!!**************/
