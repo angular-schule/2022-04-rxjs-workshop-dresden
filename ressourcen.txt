@@ -1,0 +1,12 @@
+https://rxmarbles.com
+https://angular.schule/blog/2020-02-rxjs-train-window
+https://blog.thoughtram.io/rxjs/2017/08/24/taming-snakes-with-reactive-streams.html
+https://blog.strongbrew.io/the-sip-principle/
+https://blog.strongbrew.io/safe-http-calls-with-rxjs/
+
+https://dev.to/angular/how-to-avoid-observables-in-angular-273h
+https://netbasal.com/manage-your-filters-like-a-pro-in-angular-with-combinelatest-e7b0204be2df#.r649hvtdb
+https://ngrx.io/guide/component/let
+
+https://angular.schule/blog/2021-12-rxjs-turn-signal
+https://angular.schule/blog/2018-02-rxjs-own-log-operator
