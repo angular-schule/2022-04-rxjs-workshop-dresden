@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { timer, Observable, tap, scan, EMPTY } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { timer, Observable, tap, scan, EMPTY, share } from 'rxjs';
 
 @Component({
   selector: 'rxw-fromevent',
   templateUrl: './asyncpipe.component.html',
-  styles: ['.big-num {font-size: 120pt}']
+  styles: ['.big-num {font-size: 120pt}'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AsyncpipeComponent {
 
@@ -19,13 +20,16 @@ export class AsyncpipeComponent {
 
     /**************!!**************/
 
-     timer(0, 700).pipe(
+     this.result$ = timer(5000, 700).pipe(
       scan((acc, item) => acc + item, 0),
       tap({
         next: e => console.log(e),
         complete: () => console.log('✅ COMPLETE')
-      }),
-     ).subscribe(e => this.result = e);
+      })
+     )
+
+
+     // this.result$.subscribe(e => this.result = e);
 
     /**************!!**************/
   }
