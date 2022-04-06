@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, take, delayWhen, concatMap, delay } from 'rxjs';
 
 @Component({
   selector: 'rxw-creating',
@@ -32,16 +32,50 @@ export class CreatingComponent {
 
     // of('A', 'B', 'C')
     // from([1,2,3,4,5])
-    // interval(1000)
-    // timer(3000)
+    // interval(1000) ---0---1---2---3---4---...
+    // timer(3000) // ---------0|
 
-    timer(0, 1000).pipe(
+    timer(0, 1000).pipe( // 0---1---2---3---4---5---...
       map(e => e * 3),
       filter(e => e % 2 === 0)
+    )
+    /*.subscribe({
+      next: e => this.log(e),
+      complete: () => this.log('COMPLETE')
+    });*/
+
+    /* HAUSAUFGABE
+    Erstelle ein Observable, das die Elemente eines Arrays in einem Intervall ausgibt.
+    Eingabe: ['A', 'B', 'C', 'D']
+    Intervall: 1000 ms
+    Ergebnis: ---A---B---C---D|
+    Es gibt verschiedene mögliche Lösungswege!
+    */
+
+    const arr = ['A', 'B', 'C', 'D'];
+    const intervalTime = 1000;
+
+    interval(intervalTime).pipe(
+      take(arr.length),
+      map(i => arr[i])
+    )
+
+
+    from(arr).pipe(
+      // concatMap(a => of(a).pipe(delay(intervalTime)))
+      concatMap(a => timer(intervalTime).pipe(map(() => a)))
+    )
+
+
+    from(arr).pipe(
+      delayWhen((a, i) => timer((i + 1) * intervalTime))
     ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE')
     });
+
+
+
 
 
     /******************************/
@@ -76,6 +110,7 @@ export class CreatingComponent {
 
     const myObs$ = new Observable(producer);
     // const subscription = myObs$.subscribe(obs);
+    // myObs$.subscribe(e => console.log(e))
 
 
     /*setTimeout(() => {

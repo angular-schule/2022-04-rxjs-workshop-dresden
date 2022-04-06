@@ -36,9 +36,10 @@ export class MulticastComponent {
 
 
     // this.measureValues$ = new Subject();
-    // this.measureValues$ = new BehaviorSubject(100);
-    this.measureValues$ = new ReplaySubject(5);
+    // this.measureValues$ = new BehaviorSubject(100); // .value // .getValue()
+    this.measureValues$ = new ReplaySubject(2);
     this.mvs.getValues().subscribe(this.measureValues$);
+
 
     setTimeout(() => {
       this.measureValues$.complete();
